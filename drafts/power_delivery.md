@@ -11,9 +11,9 @@ This document collects info on power connectors, fuses, and other power related 
 Voltages
 --------
 
-Devices that use external power and use less than 10W should should have a maximum input voltage of at least 5v.
-Devices that use external power and use using 10-50W should have a maximum input voltage of at least 12v.
-Devices that use external power and use using more than that should should have a maximum input voltage of at least 32v, or be mains powered.
+* Devices that use external power and use less than 10W should should have a maximum input voltage of at least 5v.
+* Devices that use external power and use  10-50W should have a maximum input voltage of at least 12v.
+* Devices that use external power and use  more than that should should have a maximum input voltage of at least 32v, or be mains powered.
 
 Devices should accept the widest possible voltage range, but should use one of 12v, 5v, 9v, 18v, 24v, or -9v(Audio gear only) if a wider range is not possible.
 
