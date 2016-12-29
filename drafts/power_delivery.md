@@ -60,8 +60,7 @@ Devices requiring unregulated voltages above nominal 12V but under 32v should us
 
 XT90 Connectors may carry up to 50V, but extreme care should be used as 50v can deliver dangerous shocks in some cases.
 
-### Regulated voltages
-
+### Misc
 Pre- USB C connectors may not be used for more than 2A.
 
 2.1mm connectors may carry no more than 5A.
@@ -142,8 +141,9 @@ Permanently attached batteries should not be used.
 
 XT60 or PowerPole Connectors should be used on non-cylindrical batteries except very small ones, which should use JST-PH connectors, as is common practice by [SparkFun](https://www.sparkfun.com/products/13851) and [Adafruit](https://www.adafruit.com/products/258).
 
-[JST-XH](http://www.tjinguytech.com/charging-how-tos/balance-connectors) should be used for balancing connectors, although integrated balancing and protection modules should be preferred. Anderson Powerpoles may also be for balancing in the 3-position 28v configuration mentioned in an earlier section.
+[JST-XH](http://www.tjinguytech.com/charging-how-tos/balance-connectors) should be used for balancing connectors, although integrated balancing and protection modules should be preferred. Anderson Powerpoles may also be for balancing in the 3-position 28v configuration mentioned in an earlier section. 
 
+DIYers and hobbyists should generally not attempt to change any type of lithium battery without a protection circuit, and should strongly consider avoiding scratch built charging circuits completely for large lithium ion cells.
 
 Switching
 ---------
