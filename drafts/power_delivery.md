@@ -6,18 +6,16 @@ Power Delivery Standard 2016\*
 Introduction
 ------------
 
-This document collects info on power connectors, fuses, and other power related gear, for use in the design of new devices and systems. These standards are desiged for maximum compatibility with existing equipmen, however **nothing in this document should be taken to imply that any given existing device will behave in any particular way.**
+This document collects info on power connectors, fuses, and other power related gear, for use in the design of new devices and systems. These standards are desiged for maximum compatibility with existing equipment, however **nothing in this document should be taken to imply that any given existing device will behave in any particular way.**
 
 Voltages
 --------
 
-Devices using less than 10W should accept at least 5v.
-Devices using 10-50W should accept at least 12v.
-Devices using more than that should accept up to at least 32v, or be mains powered.
+Devices that use external power and use less than 10W should should have a maximum input voltage of at least 5v.
+Devices that use external power and use using 10-50W should have a maximum input voltage of at least 12v.
+Devices that use external power and use using more than that should should have a maximum input voltage of at least 32v, or be mains powered.
 
-Devices requiring more than 30 watts should accept a 
-
-Devices should accept the widest possible voltage range, but should use on of 12v, 5v, 9v, 18v, 24v, or -9v(Audio gear only) if a wider range is not possible.
+Devices should accept the widest possible voltage range, but should use one of 12v, 5v, 9v, 18v, 24v, or -9v(Audio gear only) if a wider range is not possible.
 
 Low-power devices(Under 30W) should never connect directly to mains and should instead use a power adapter.
 
@@ -135,7 +133,7 @@ Handheld devices should use common cylindrical or coin sizes of rechargable batt
 
 All Lithium Ion rechargeable batteries should contain protection circuitry against under and overcharge integral to the battery. 
 
-Where possible, lithium ion batteries should only be charged to 4.10v
+Where possible, most common lithium ion cells that have a maximum voltage of 4.2V(Li-Co, NMC,etc) should only be charged to 4.10v to enhace cycle life.
 
 Permanently attached batteries should not be used.
 
@@ -143,7 +141,7 @@ XT60 or PowerPole Connectors should be used on non-cylindrical batteries except 
 
 [JST-XH](http://www.tjinguytech.com/charging-how-tos/balance-connectors) should be used for balancing connectors, although integrated balancing and protection modules should be preferred. Anderson Powerpoles may also be for balancing in the 3-position 28v configuration mentioned in an earlier section. 
 
-DIYers and hobbyists should generally not attempt to change any type of lithium battery without a protection circuit, and should strongly consider avoiding scratch built charging circuits completely for large lithium ion cells.
+DIYers and hobbyists should generally not attempt to charge any type of lithium battery without a protection circuit, and should strongly consider avoiding scratch built charging circuits completely for large lithium ion cells.
 
 Switching
 ---------
