@@ -87,7 +87,7 @@ RJ45 connectors may be used in the standard [passive Poe](https://en.wikipedia.o
 Grounding
 ---------
 
-Devices should not directly connect signal cable grounds to power ground, to avoid a dangerous loop. Instead a 10K resistor bypassed with an 0.1uf or greater capacitor should be used in most cases. This does not apply to signal cables indented to connect only to one other device at a time, which is powered entirely via that cable or via isolated sources.
+Devices should not directly connect signal cable grounds to power ground, to avoid a dangerous loop. Instead a 10k-47k resistor bypassed with an 0.1uf or greater capacitor should be used in most cases. This does not apply to signal cables indented to connect only to one other device at a time, which is powered entirely via that cable or via isolated sources.
 
 Where it is desired that a device have the option of being powered from either the signal cable or a power input, both a diode and a fuse should be provided on both the ground and power leads of the signal line, with the fuse rated for not more than the safe ampacity of the cable(Factoring in common counterfeiting of cables and conductors), divided by the maximum devices connected to one signal line if it is a bus topology.
 
@@ -106,11 +106,12 @@ When a voltage range is not specified, a reader should assume that a device expe
 Fusing
 ------
 
-Where practical, resettable fuses or circuit breakers should be used. Both 5x20mm and ATC fuses are acceptable for DC circuits, although 5x20mm fuses should always be preferred as they have higher voltage ratings and are often cheaper. ATC fuses should only be preferred for currents above 10A.
+Where practical, resettable fuses or circuit breakers should be used. Where fuses are used, 5x20mm, ATC, and miniature automotive fuses should be the preferred types, although 5x20mm fuses should not be used with DC voltages above 24v or 32v if the maximum fault current is limited, no  matter what the rating of the fuse is, due to the difficulty in  sourcing DC rated 5x20mm fues and possibility of incorrect replacement.
+
 
 Devices requiring fuses must be clearly marked as to the size and ampacity of fuse required.
 
-Any junction of a larger wire feeding current into a smaller wire must have a fuse unless the smaller wire is less than 0.3 meters and the conductivity of the smaller wire is sufficient to blow the fuse por breaker protecting the larger wire.
+Any junction of a larger wire feeding current into a smaller wire should have a fuse unless the smaller wire is less than 0.3 meters and the conductivity of the smaller wire is sufficient to blow the fuse por breaker protecting the larger wire.
 
 Layout
 ------
@@ -129,11 +130,11 @@ Devices internally using DC should not connect directly to the mains unless they
 Battery Choice
 --------------
 
-Where practical, LiFePo4 cells should be chosen over lithium ion. NiCd and pb-acid should be avoided.
+Where practical, LiFePo4 cells should be chosen over lithium ion. NiCd and pb-acid should almost always be avoided.
 
 Handheld devices should use common cylindrical or coin sizes of rechargable battery where at all possible, otherwise pouch cells with JST-PH connectors should be used.
 
-All Lithium Ion rechargeable batteries should contain protection circuitry against under and overcharge.
+All Lithium Ion rechargeable batteries should contain protection circuitry against under and overcharge integral to the battery. 
 
 Where possible, lithium ion batteries should only be charged to 4.10v
 
@@ -141,7 +142,8 @@ Permanently attached batteries should not be used.
 
 XT60 or PowerPole Connectors should be used on non-cylindrical batteries except very small ones, which should use JST-PH connectors, as is common practice by [SparkFun](https://www.sparkfun.com/products/13851) and [Adafruit](https://www.adafruit.com/products/258).
 
-[JST-XH](http://www.tjinguytech.com/charging-how-tos/balance-connectors) should be used for balancing connectors, although integrated balancing and protection modules should be preferred. Anderson Powerpoles may be used 
+[JST-XH](http://www.tjinguytech.com/charging-how-tos/balance-connectors) should be used for balancing connectors, although integrated balancing and protection modules should be preferred. Anderson Powerpoles may also be for balancing in the 3-position 28v configuration mentioned in an earlier section.
+
 
 Switching
 ---------
