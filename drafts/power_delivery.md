@@ -38,7 +38,7 @@ The 2.1mm barrel jack may be used with any regulated or unregulated voltage betw
 
 Barrel jacks must always be used in in the center positive configuration, except 2.1mm jacks in the case of legacy equipment, and 9v or 18v audio gear. Center negative outputs should have a voltage and polarity tag affixed to them.
 
-1.3mm barrel jacks may carry up to 9v, and 0.8mm connectors may carry up to 9v.
+1.3mm barrel jacks may carry up to 9v, and 0.8mm connectors may carry up to 5.5v.
 
 It is acceptable for any female barrel jack to serve as an outlet, provided both a diode and resettable fuse or breaker are placed to prevent backfeeding from causing damage. 2.1mm outlets should not use non-resettable fuses, and must be clearly marked with their output voltage and the word OUT or OUTPUT, or the equivalent in the appropriate language.
 
