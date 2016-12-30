@@ -11,8 +11,8 @@ This document collects info on power connectors, fuses, and other power related 
 Voltages
 --------
 
-* Devices that use external power and use less than 10W should should have a maximum input voltage of at least 5.6v.
-* Devices that use external power and use  10-50W should have a maximum input voltage of at least 14.6v.
+* Devices that use external power and use less than 10W should should have a maximum input voltage of at least 5.6v, and should require at most 4.6v to function correctly. Where practical devices in this category should function correctly from 3V to allow direct operation from lithium batteries.
+* Devices that use external power and use  10-50W should have a maximum input voltage of at least 14.6v and should require at most 10v to function correctly. Where practical devices in this category should function correctly from 8v.
 * Devices that use external power and use  more than that should should have a maximum input voltage of at least 32v, or be mains powered.
 
 Devices should accept the widest possible voltage range, but should use one of 12v, 5v, 9v, 18v, 24v, or -9v(Audio gear only) if a wider range is not possible.
@@ -26,6 +26,8 @@ Power supplies should provide regulation within 4% unless labeled as to their ex
 No semi-exposed conductor(such as can be found on the charger end of xt60 connectors) should have more than 24v.
 
 No fully exposed connector(Such as can be found on 9v batteries and the like, and on bannana plugs in some cases) should carry more than 15v.
+
+Devices should be designed so as not to be damaged by sustained undervoltage or undercurrent at any level, and should tolerate extremely slow risetimes when turning on power.
 
 Connectors:
 -----------
