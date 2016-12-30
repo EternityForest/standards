@@ -11,17 +11,19 @@ This document collects info on power connectors, fuses, and other power related 
 Voltages
 --------
 
-* Devices that use external power and use less than 10W should should have a maximum input voltage of at least 5.6v, and should require at most 4.6v to function correctly. Where practical devices in this category should function correctly from 3V to allow direct operation from lithium batteries.
-* Devices that use external power and use  10-50W should have a maximum input voltage of at least 14.6v and should require at most 10v to function correctly. Where practical devices in this category should function correctly from 8v.
-* Devices that use external power and use  more than that should should have a maximum input voltage of at least 32v, or be mains powered.
+* Devices that use external power and require less than 10W should should function correctly with any input voltage between 4.6v and 5.6v. Where practical devices in this category should function correctly from 3V to allow direct operation from lithium batteries.
 
-Devices should accept the widest possible voltage range, but should use one of 12v, 5v, 9v, 18v, 24v, or -9v(Audio gear only) if a wider range is not possible.
+* Devices that use external power and require power in the range of 10-80W should function correctly with any input voltage between 10V and 14.6V. Where practical devices in this category should function correctly from 8v to 16v.
 
-Low-power devices(Under 30W) should never connect directly to mains and should instead use a power adapter.
+* Devices that use external power and use more than 80W should should be able to run from 32V, or be mains powered.
 
-"12V" devices should accept up to at least 16v and require at most 9v to run correctly.
+The ranges given above are minimal suggestions. Devices should generally accept the widest possible voltage range.
 
-Power supplies should provide regulation within 4% unless labeled as to their exact output voltage range.
+If a regulated voltage must be chosen, Devices should generally use one of 12v, 5v, 9v, 18v, 24v, or -9v(for audio gear only)
+
+Low-power devices(Under 30W) should usually not connect directly to mains and should instead use a power adapter.
+
+Power supplies should provide regulation within 4% unless labeled as to their exact output voltage range. Devices that use a regulated voltage should tolerate 5% deviation from that voltage.
 
 No semi-exposed conductor(such as can be found on the charger end of xt60 connectors) should have more than 24v.
 
