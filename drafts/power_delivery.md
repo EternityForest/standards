@@ -48,11 +48,11 @@ It is acceptable for any female barrel jack to serve as an outlet, provided both
 
 ### Unregulated Voltages
 
-Devices requiring an unregulated "automotive style" 12v may use XT60, Cigarette plugs, or Anderson PowerPoles in the [ARES configuration.](http://www.qsl.net/w2vtm/powerpole.html) "Automotove style" 12v should be read as unregulated 10-15V
+Devices requiring an unregulated "automotive style" 12v may use XT60, Cigarette plugs, or Anderson PowerPoles in the [ARES configuration.](http://www.qsl.net/w2vtm/powerpole.html) "Automotove style" 12v should be read as unregulated 10-15V. Where PowerPoles are used for nominal 12v, variations PP15, PP25, and PP45 should be preferred.
 
 Supplies providing power via ciggarette adapters should not provde more than 14.4V, but devices accepting power via ciggarette plugs should expect transients that may range from -20 to  70v, or perhaps even more. 
 
-Anderson PowerPoles should never carry more than 15v under any circumstances, except where a middle spacer PowerPole is used. In this configuration the ARES ordering should be maintained.
+Anderson PowerPole variations PP15, PP25, and PP45 should not carry more than 15v, except when used for internal connections of one piece of equipment intended to remain connected permanently except for during servicing, or where a middle spacer PowerPole is used. In this configuration the ARES ordering should be maintained.
 
 In this case the two outer pins may carry at most 30V. In this configuration the middle pin may be used for the center connector between two batteries for monitoring or balancing purposes, or to connect a separate supply of no more than 15v above ground or 15v below the outer pin's voltage voltage.
 
