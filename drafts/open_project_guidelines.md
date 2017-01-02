@@ -180,6 +180,9 @@ Libraries should provide the most basic functionality with as little code as pos
 User Interface
 --------------
 
+### Mouse Buttons
+Applications should not require 3-button mice unless they are highly specialized and there is no reasonable option.
+
 ### Windowing
 
 Multi-window interfaces should be avoided, and support for tabbed editing should strongly be preferred for all editor-like programs.
@@ -198,7 +201,7 @@ Tabs should be preferred to accordion-style interfaces.
 
 Applications should not use keyboard shortcut as the sole means of exposing functionality unless those shortcuts are commonly accepted(ctrl-c, ctrl-v, ctrl-x, ctrl-y, etc).
 
-Keyboard shortcuts for common functions should only use the control key and should not use more than 2 keys in a shortcut.
+Keyboard shortcuts for common functions should only use the control or shift keys and should not use more than 2 keys in a shortcut.
 
 Undo should be mapped to ctrl-z, redo should be mapped to ctrl-z, redo should be mapped to both ctrl-y and ctrl-shift-z, but ctrl-y should be used if both cannot be.
 
@@ -210,7 +213,7 @@ Backspace should not be used for backwards navigation, nor should it be used to 
 
 A right click should nearly always invoke a context menu on the selected element.
 
-Single clicks should always select and double clicks should activate a given element.
+Single clicks should usually just select and double clicks should activate a given element.
 
 See [Wikipedia](https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts) for a general idea of common shortcuts. Most of the ones listed are not well known enough to serve as the only means of access to a feature.
 
@@ -252,7 +255,9 @@ The user should always be presented with full debugging information when an unus
 Disk IO
 -------
 
-The disk should not be written to unless strictly needed. Anything not user-critical or too large should be maintained in RAM until the application exits, the user manually saves, or some sync interval passes.
+The disk should not be written to unless needed. Anything not user-critical or very large should be maintained in RAM until the application exits, the user manually saves, or some sync interval passes. Things like documents the user is editing may be saved immediately on modification, but things like the current window position and simple settings that would take less than a few seconds to redo should stay in RAM until the app exits.
+
+Things that may be changed extremely frequently, such as scrolling position in a text editor should especially not write to disk when not needed. Frequent unneeded disk writes increase vulnerability to power-loss corruption on some filesystems, increase wear on SSDs, and can even reduce performance if they in extreme cases.
 
 This also applies to embedded software that can write to flash. Anything that is likely to be frequently changed(More than once per day, or 10x per day with higher endurance EEPROM) should probably not be saved without a manual command.
 
@@ -267,22 +272,33 @@ Simply opening a document in an editor should not cause a disk write.
 Files and Folders
 -----------------
 
-Applications should in general use directories instead of individual files for configuration, scripting, etc, and should process files within them in sorted order.
+Applications should never crash if a log or cache file is deleted, and should simply create the missing file. Applications should as much as possible use default settings to replace files, except where doing so might create a security error.
+
+A warning should always be printed whenever a missing or corrupt file is detected.
+
+Files with no extension should be avoided except for executable files.
+
+Important files should be protected by the backup-before-write or the atomic rename pattern. In the (POSIX only without special API calls) atomic rename pattern, you write the new file into a temporary file and rename it to the same name as the old file had, which on some systems can be used as an atomic replacement operation.
+
+In the backup-before-write pattern, a copy of the file is made before editing and deleted after completing the changes to the original file. The backup file should have the same name as the old one, but with a tilde ~ appended.
+
+With this pattern there is no easy way to detect which file is the correct one, the backup file or the original. To resolve this, the files can contain checksums or a simple fixed marker at the end. Fixed end markers have the advantage of allowing hand-editing but cannot detect corruption.
+
+You can also use a third file, the same name as the original with a tilde and an exclamation point appended may be used. This file should be created after finishing the backup copy but before starting to write to the original, and deleted with the backup file. If it exists, regardless of contents, you know the backup completed successfully.
+
+### Configuration Files
+Applications that provide background services should use directories instead of individual files for configuration, scripting, etc, and should process files within them in sorted alphabetical or ASCIIbetical order.
 
 This allows easier management by automated tools, as it is easier to add a file to a folder than it is to automatically modify and restore a file, and also takes advantage of built-in filesystem locking and atomicity. In general, when exposing an API based on a file, consider if a folder would be more appropriate. An example is the way that [systemd](https://www.freedesktop.org/software/systemd/man/systemd.unit.html) uses unit files in folders instead of cron's normally single crontab per user.
 
 Files without a specific extension should be ignored in such folders, allowing for the create-rename atomicity pattern.
-
-Applications should never crash if a log or cache file is deleted.
-
-Files with no extension should be avoided except for executable binary files. If you don't want an extension on an executable script file, use a symlink to a file with the proper extension if the application supports it.
 
 Time and Date
 -------------
 
 2 digit years should not be used in any context, and binary Timestamps should be more than 32 bits.
 
-Dates should be in ISO YYYY-MM-DD, or else the month should be named instead of referred to by number. When a named or abbreviated month is used with a 4 digit year, any ordering of the components can be easily disambiguated.
+Dates should be in ISO YYYY-MM-DD format, or else the month should be named instead of referred to by number. When a named or abbreviated month is used with a 4 digit year, any ordering of the components can be easily disambiguated with simple regexes.
 
 Times should be in HH:MMam/pm format. Times with no am/pm marker should be assumed to be in 24H time.
 
@@ -303,15 +319,13 @@ Shell utilities where practical should use [JSON](http://www.json.org/), [YAML](
 
 Hierarchal data should not be represented in custom machine-readable text formats, nor should XML be used for anything other than document-like structure.
 
-Log files should support gz or b2z compression.
+Log files should support GZ or BZ2 compression.
 
 Where the packing of large numbers of files is needed, ZIP should be used unless features not present in ZIP are required. Custom formats that act as containers for other files should use the ZIP format as a basis.
 
-Images should nearly always be stored as SVG, PNG or JPG except for legacy compatibility.
+Images should nearly always be stored as SVG, PNG or JPG except for legacy compatibility. As PNG is lossless and supports uncompressed blocks, it is almost always preferable to BMP.
 
-SVG images should be preferred in documents and web pages, PNG should be used for simple images containing lots of solid color or for small icons, and JPG should be used for everything else.
-
-BMP and TIFF should almost never be used, and GIF should only be used where animation is desired, although if practical applications should support APNG images for animation.
+SVG images should be preferred in documents and web pages, and anything originally created as vector art.
 
 Formatted text should generally use Github Flavored Markdown, ODT, or HTML.
 
@@ -337,19 +351,21 @@ Software objects that have any identity outside the scope of one instance of one
 
 As EUI numbers require a central authority they should not be used except where their small size is critical.
 
-Preferably, identifier schemes should support more than one of the above choices.
+Identifier schemes may support more than one of the above choices.
 
-The suggested method for identifying things in a global scope(Such as data or plugin types, device models, node identifiers, file numbers, etc), is to allow both reverse-dns entries and URNs, disambiguating via regexes, and treating anything that is not valid as one or the other as a local-use only identifier. UUIDs can be used in this way via the <a href="urn:uuid" class="uri" class="uri">urn:uuid</a>: URI scheme.
+The suggested method for supporting multiple schemes(Such as data or plugin types, device models, node identifiers, file numbers, etc), is to allow both reverse-dns entries and URNs, disambiguating via regexes, and treating anything that is not valid as one or the other as a local-use only identifier. Anything that does not contain at least one . cannot be a reverse-dns entry(Unless you allow root zones as identifiers), and anything not contaiing a : cannot be a URN, and colons generally never appear in reverse-dns names.
 
-Non-standard URI schemes should be avoided for the most part, however URI-like formats not intended to be part of the URI namespace but using the same format are acceptable for internal use(e.g. "playsound:beep" as some kind of action identifier in a game.)
+UUIDs can be used in this way via the <a href="urn:uuid" class="uri" class="uri">urn:uuid</a>: URI scheme.
 
-Use of schemes involving obtaining a number from the vendor of the software should be avoided, as should use of small numbers as the primary ID of objects in file formats. Device IDs should especially not use small numbers.
+Non-standard URI schemes should be avoided for the most part, however URI-like formats not intended to be part of the URI namespace but using the same or a similar format bay be used for internal use(e.g. "playsound:beep" as some kind of action identifier in a game.)
 
-Objects that exist in a global namespace should support titles or aliases if they are ever to be displayed in a list seen by humans.
+Use of schemes involving obtaining a number from the vendor of the software should be avoided, as should use of small numbers as the primary ID of objects in file formats. Device IDs should never use small numbers.
+
+Objects that exist in a global namespace should support titles or aliases if they are ever to be displayed in a list seen by humans. Devices intended as peripherals(External storage, controllers, etc) should have programmable utf-8 titles.
 
 ### Local Identifiers
 
-Custom identifier schemes meant to identify things in a limited scope should usually have some set of "custom" or "private use" identifiers, prefixes, ranges, or root namespaces.
+Custom identifier schemes meant to identify things in a limited scope should usually have some set of "custom" or "private use" identifiers, prefixes, ranges, or root namespaces to allow for future expansion.
 
 One of the following three schemes is suggested for identifiers with limited scope not subject to collision issues on a global scale:
 
@@ -372,7 +388,7 @@ A third way, mainly for embedded devices, is to use a simple numbering scheme, w
 Libraries
 ---------
 
-Libraries, even those that are a single file, should always be distributed as a folder for consistency and easy of packaging license info with the library.
+Libraries, even those that are a single file, should always be distributed as a folder for consistency and easy of packaging license info and readme info with the library. Ideally any documentation aside from a short readme and the license and credits, any unit tests, and other related files should be stored outside of the main library folder to allow libraries to be dropped in unmodified to statically linked projetcs
 
 Responsiveness
 --------------
@@ -394,29 +410,27 @@ However, as mentioned before, desktop-type apps should retain compatibility with
 
 Use of deprecated or removed command line arguments in shell programs should not cause errors.
 
-Network IO
+Network and other IO
 ----------
 
-Devices that normally communicate via the internet should, where possible, be able to discover each other via the local network in the absence of internet connectivity.
+Devices that normally communicate via the internet should, where possible, be able to discover each other via the local network in the absence of internet connectivity. mDns should be used for discovery where possible.
 
-mDns should be used for discovery, and occasional one-to-one requests that are not performance critical should be send via HTTP.
+Occasional one-to-one requests that are not performance critical should be send via HTTP.
 
-Where it is practical, serverless systems should be preffered to systems requiring a server.
+Where it is practical, serverless or peer to peer systems should be preffered to systems requiring a server.
 
 Nodes should automatically retry and reconnect after a network failure, and, as much as is possible, should re-enter the same state they were in before the disconnection.
 
-In GUI applications, a user action should not be required for a reconnection unless there are potential side effects, nor should a message popup be displayed. Instead, a status indicator should be used.
-
-This also applies to non-ip networks like USB.
+A user action should not be required for a reconnection unless there are potential side effects, nor should a message popup be displayed. Instead, a status indicator should be used. The reconnection process should be as transparent as possible.This also applies to non-ip networks like USB.
 
 ### HTTP
 
-Passwords shall not be sent via unencrypted HTTP. GET requests should have no side effects, except where the GET request URL contains a long random string of at least 24 bytes.
+Passwords should NEVER be sent via unencrypted HTTP. GET requests should have no side effects, except where the GET request URL contains a long random string of at least 24 bytes.
 
 Security
 --------
 
-Passwords should not be stored in plaintext on the server. Storing passwords on the client for use in accessing the server is acceptable. HTTP applications should always support TLS but should not require it except for things that do not obviously need security. 
+Passwords should not be stored in plaintext on the server. Storing passwords on the client for use in accessing the server is acceptable as password-based applications often have no simple alternative. HTTP applications should always support TLS but should not require it except for things that do not obviously need security. 
 
 Memory Management
 -----------------
@@ -426,4 +440,4 @@ In applications making heavy use of RAM, manual cleanup on unused objects is oft
 Misc
 ----
 
-Literal strings, numbers, and similar data should usually be avoided and moved to configuration files, however this may not always be practical.
+Literal strings, numbers, and similar data should usually be avoided and moved to configuration files, however this may not always be practical or neccesary.
