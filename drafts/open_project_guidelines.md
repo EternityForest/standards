@@ -1,7 +1,7 @@
-Software Project Guidelines 2016A
-===================================
+Software Project Guidelines 2017A
+=================================
 
-(C) Daniel Dunn 2016.
+(C) Daniel Dunn 2016,2017.
 
 Introduction
 ============
@@ -11,9 +11,9 @@ This document intends to be a general reusable template for a coding, contributi
 Attribution
 -----------
 
-All code or other data taken from third party sources must be properly attributed and included in some kind of credits page or file, accessible to the user if the program is a GUI application.
+All code or other data taken from third party sources should be properly attributed and included in some kind of credits page or file, accessible to the user if the program is a GUI application.
 
-This includes cases where it is not legally necessary, such as code that has been explicitly released to the public domain.
+This includes cases where it is not legally necessary, such as code that has been explicitly released to the public domain. Attributing all contributions not only helps authors get proper credit but may assist with debugging later.
 
 One-line fragments copied from the internet should have a URL link to their source directly in the code, along with a comment indicating the author.
 
@@ -41,9 +41,9 @@ The modifications that should be used are:
 -   Pre-release versions should use the names "development", "alpha", "beta", and "rc"
 -   Only bugfixes should be made after the beta stage
 -   Only "safe" bugfixes or fixes for very important bugs should be made in the release candidate stage.
-- Minor releases may include beta features that may change or be removed without incrementing tha major number so long as the release that introduced the feature domuments that the feature is subject to change.
+-   Minor releases may include beta features that may change or be removed without incrementing tha major number so long as the release that introduced the feature domuments that the feature is subject to change.
 
-- If that documentation is removed at any point, from then on the feature must be considered stable and no backwards-incompatible changes to it may occur without a major number increase.
+-   If that documentation is removed at any point, from then on the feature must be considered stable and no backwards-incompatible changes to it may occur without a major number increase.
 
 "Browser marketing style" version numbering where the major number increments for every slight change is not acceptable and should never be used.
 
@@ -76,7 +76,7 @@ Any section of code that is missing something or should be changed or re-examine
 
 A git hosting service with a wiki and an issue tracker supporting comments, and planning and discussion for bugs and new features should take place there.
 
-General discussion should take place preferrably on a forum as opposed to a mailing list.
+General discussion should take place preferrably on a forum-like platform as opposed to a mailing list, unless the discussion is primarily aimed at a core group of developers with relatively few "drive-by" pull requests.
 
 Build scripts 
 --------------
@@ -99,7 +99,7 @@ Change logs should be kept in .txt or markdown formats.
 Tests
 -----
 
-Every new feature should include an automated or semi-automated means of testing said feature, and every bugfix should include a test against regression of that bug. but for difficult to test things such as the UI, this is not an absolute requirement.
+Every new feature should include an automated or semi-automated means of testing said feature, and every bugfix should include a test against regression of that bug, but for difficult to test things such as the UI, this is not an absolute requirement.
 
 Individual unit tests are nice to have but are not required except for particularly important sections or things known to be highly prone to regression.
 
@@ -180,6 +180,10 @@ Libraries should provide the most basic functionality with as little code as pos
 User Interface
 --------------
 
+### Notifications
+
+Applications should not send the user excessicve notifications. For instances where there is any doubt as to whether the user will want a notification, a configuration option to disable it should be provided.
+
 ### Windowing
 
 Multi-window interfaces should be avoided, and support for tabbed editing should strongly be preferred for all editor-like programs.
@@ -234,7 +238,6 @@ Where entries are always inserted at the end of a list, and content will persist
 
 ### Scrolling
 
-
 Endless scrolling should almost always be avoided in basically *any* context, except where older content is unlikely to ever be relevant at any point in the future. Discussion forms and blogs should especially avoid it.
 
 No one element should need to scroll both vertically and horizontally except for display of large images and maps.
@@ -244,10 +247,14 @@ CSS
 
 As much as possible, CSS stylesheets should avoid using class names and ids and should rely on semantic markup and structure. See "Reusable CSS Classes" for what to do in other cases.
 
-Error messages
---------------
+Errors
+------
 
-The user should always be presented with full debugging information when an unusual error occurs, and all errors should be output to stderr or a GUI display or at least have an option to be output in such a way.
+The user should always be presented with full debugging information when an unusual error occurs, and all errors should be logged or output to stderr or a GUI display or at least have an option to be output in such a way.
+
+Exceptions should be prefered over return values to indicate errors,unless there is a specific reason.
+
+Things that are not actually errors that are likely to occur often in normal use, such as "No new data" can be indicated with return values instead. An example would be a function that retrieves the latest data from a sensor, or else Null if no new data has been recieved.
 
 Disk IO
 -------
@@ -323,7 +330,6 @@ New custom formats should always support extensibility, either by chunks contain
 
 Custom binary formats should contain "magic number" identifiers of at minimum 8 bytes.
 
-
 Documentation should be kept as either markdown or HTML, with the latter only used if it is intended to be displayed via the web in some way.
 
 Documentation that is intended for print and must be formatted a specific way should be maintained in ODT format, however this should be avoided if possible due to the difficulty in merging such files, and markdown,rst, plain text, etc should be preferred.
@@ -353,11 +359,11 @@ Custom identifier schemes meant to identify things in a limited scope should usu
 
 One of the following three schemes is suggested for identifiers with limited scope not subject to collision issues on a global scale:
 
-One is to use reserved characters, such as reserving all identifiers starting with '\_\_', reserving all characters containing a dot, colon, or slash and allow custom or local use of the rest, or some similar prefix or suffix based scheme.
-
 #### Prefix Based
 
-In general, "special" or "builtin" identifiers should never begin with "x-" and anything starting with this string should be reserved for private use, but applications actually using "x-" prefixes strings must not cause data loss or any other such undesirable result in the event of a collision.
+In general, "special" or "builtin" identifiers should never begin with "x-" and anything starting with this string should be reserved for private use, but applications actually using "x-" prefixes strings should not cause data loss or any other such undesirable result in the event of a collision.
+
+Alternatively, a prefix such as "\_\_" can be used to denote reserved identifiers, with all others being available for private use.
 
 #### Hierarchy/URI-Like
 
@@ -383,7 +389,7 @@ In addition, all UI actions should immediately give some indication, such as dis
 Concurrency
 -----------
 
-Many modules requiring both high read performance and locks to access a data structure can use a read-only copy of that data structure that is only ever atomically updated by copying the working structure under the lock. Many operations can be satisfied without the overhead of a lock in this way
+Many modules requiring both high read performance and locks to access a data structure can use a read-only copy of that data structure that is only ever atomically updated by copying the working structure under the lock. Many operations can be satisfied without the overhead of a lock in this way.
 
 Legacy Support
 --------------
@@ -393,6 +399,8 @@ Unless your application is likely to be used in a corporate environment or by a 
 However, as mentioned before, desktop-type apps should retain compatibility with old save files indefinitely, and applications to support hardware devices should retain support for older versions of the devices indefinitely.
 
 Use of deprecated or removed command line arguments in shell programs should not cause errors.
+
+Programs and data formats should be designed assuming that features will be added at some point.
 
 Network IO
 ----------
@@ -411,19 +419,18 @@ This also applies to non-ip networks like USB.
 
 ### HTTP
 
-Passwords shall not be sent via unencrypted HTTP. GET requests should have no side effects, except where the GET request URL contains a long random string of at least 24 bytes.
+Passwords shall not be sent via unencrypted HTTP. 
+
+GET requests should have no side effects, except when using TLS and where the GET request URL contains a long random string of at least 24 bytes, or where the side effect is relatively harmless and unimportant.
 
 Security
 --------
 
 Passwords should not be stored in plaintext on the server. Storing passwords on the client for use in accessing the server is acceptable. HTTP applications should always support TLS but should not require it except for things that do not obviously need security. 
 
+Web applications should allow browsers to save passwords.
+
 Memory Management
 -----------------
 
-In applications making heavy use of RAM, manual cleanup on unused objects is often insufficient due to bugs and coding errors, leading to frequent memory leaks in many applications. Because of this, liberal use of weak references should be made in languages that support them for all objects that are repeatedly created and destroyed at runtime.
-
-Misc
-----
-
-Literal strings, numbers, and similar data should usually be avoided and moved to configuration files, however this may not always be practical.
+In applications making heavy use of RAM, manual cleanup on unused objects is often insufficient due to bugs and coding errors, leading to frequent memory leaks in many applications. Because of this, liberal use of weak references should be made in languages that support them for objects that are repeatedly created and destroyed at runtime.
