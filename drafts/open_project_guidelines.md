@@ -1,5 +1,5 @@
-Software Project Guidelines 2017A
-=================================
+Software Project Guidelines 2017A\*
+===================================
 
 (C) Daniel Dunn 2016,2017.
 
@@ -119,6 +119,8 @@ In Python-like languages, PEP8 should be followed loosely as a general guide, bu
 Names should not begin with a capital letter unless they are classes or types, even if they are acronyms. In contrast to the advice of PEP8, when using CamelCase, only the first letter of acronyms should be capitalized.
 
 Avoid multiple statements or assignments on one line, and limit functions to 80 lines each at most if possible.
+
+Where an abbreviation is very widely known, as in del, init, div, etc, it should be preferred to the full word when naming variables, functions, and commands.
 
 ### Commenting and Documenting
 
