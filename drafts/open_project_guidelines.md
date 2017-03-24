@@ -1,7 +1,7 @@
-Software Project Guidelines 2016A
-===================================
+Software Project Guidelines 2017A
+=================================
 
-(C) Daniel Dunn 2016.
+(C) Daniel Dunn 2016,2017.
 
 Introduction
 ============
@@ -11,9 +11,9 @@ This document intends to be a general reusable template for a coding, contributi
 Attribution
 -----------
 
-All code or other data taken from third party sources must be properly attributed and included in some kind of credits page or file, accessible to the user if the program is a GUI application.
+All code or other data taken from third party sources should be properly attributed and included in some kind of credits page or file, accessible to the user if the program is a GUI application.
 
-This includes cases where it is not legally necessary, such as code that has been explicitly released to the public domain.
+This includes cases where it is not legally necessary, such as code that has been explicitly released to the public domain. Attributing all contributions not only helps authors get proper credit but may assist with debugging later.
 
 One-line fragments copied from the internet should have a URL link to their source directly in the code, along with a comment indicating the author.
 
@@ -76,7 +76,7 @@ Any section of code that is missing something or should be changed or re-examine
 
 A git hosting service with a wiki and an issue tracker supporting comments, and planning and discussion for bugs and new features should take place there.
 
-General discussion should take place preferrably on a forum as opposed to a mailing list.
+General discussion should take place preferrably on a forum-like platform as opposed to a mailing list, unless the discussion is primarily aimed at a core group of developers with relatively few "drive-by" pull requests.
 
 Build scripts 
 --------------
@@ -180,8 +180,9 @@ Libraries should provide the most basic functionality with as little code as pos
 User Interface
 --------------
 
-### Mouse Buttons
-Applications should not require 3-button mice unless they are highly specialized and there is no reasonable option.
+### Notifications
+
+Applications should not send the user excessicve notifications. For instances where there is any doubt as to whether the user will want a notification, a configuration option to disable it should be provided.
 
 ### Windowing
 
@@ -201,7 +202,7 @@ Tabs should be preferred to accordion-style interfaces.
 
 Applications should not use keyboard shortcut as the sole means of exposing functionality unless those shortcuts are commonly accepted(ctrl-c, ctrl-v, ctrl-x, ctrl-y, etc).
 
-Keyboard shortcuts for common functions should only use the control or shift keys and should not use more than 2 keys in a shortcut.
+Keyboard shortcuts for common functions should only use the control key and should not use more than 2 keys in a shortcut.
 
 Undo should be mapped to ctrl-z, redo should be mapped to ctrl-z, redo should be mapped to both ctrl-y and ctrl-shift-z, but ctrl-y should be used if both cannot be.
 
@@ -247,10 +248,14 @@ CSS
 
 As much as possible, CSS stylesheets should avoid using class names and ids and should rely on semantic markup and structure. See "Reusable CSS Classes" for what to do in other cases.
 
-Error messages
---------------
+Errors
+------
 
-The user should always be presented with full debugging information when an unusual error occurs, and all errors should be output to stderr or a GUI display or at least have an option to be output in such a way.
+The user should always be presented with full debugging information when an unusual error occurs, and all errors should be logged or output to stderr or a GUI display or at least have an option to be output in such a way.
+
+Exceptions should be prefered over return values to indicate errors,unless there is a specific reason.
+
+Things that are not actually errors that are likely to occur often in normal use, such as "No new data" can be indicated with return values instead. An example would be a function that retrieves the latest data from a sensor, or else Null if no new data has been recieved.
 
 Disk IO
 -------
@@ -293,12 +298,16 @@ This allows easier management by automated tools, as it is easier to add a file 
 
 Files without a specific extension should be ignored in such folders, allowing for the create-rename atomicity pattern.
 
+Applications should never crash if a log or cache file is deleted.
+
+Files with no extension should be avoided except for executable binary files. If you don't want an extension on an executable script file, use a symlink to a file with the proper extension if the application supports it.
+
 Time and Date
 -------------
 
 2 digit years should not be used in any context, and binary Timestamps should be more than 32 bits.
 
-Dates should be in ISO YYYY-MM-DD format, or else the month should be named instead of referred to by number. When a named or abbreviated month is used with a 4 digit year, any ordering of the components can be easily disambiguated with simple regexes.
+Dates should be in ISO YYYY-MM-DD, or else the month should be named instead of referred to by number. When a named or abbreviated month is used with a 4 digit year, any ordering of the components can be easily disambiguated.
 
 Times should be in HH:MMam/pm format. Times with no am/pm marker should be assumed to be in 24H time.
 
@@ -319,7 +328,7 @@ Shell utilities where practical should use [JSON](http://www.json.org/), [YAML](
 
 Hierarchal data should not be represented in custom machine-readable text formats, nor should XML be used for anything other than document-like structure.
 
-Log files should support GZ or BZ2 compression.
+Log files should support gz or b2z compression.
 
 Where the packing of large numbers of files is needed, ZIP should be used unless features not present in ZIP are required. Custom formats that act as containers for other files should use the ZIP format as a basis.
 
@@ -355,7 +364,7 @@ Identifier schemes may support more than one of the above choices.
 
 The suggested method for supporting multiple schemes(Such as data or plugin types, device models, node identifiers, file numbers, etc), is to allow both reverse-dns entries and URNs, disambiguating via regexes, and treating anything that is not valid as one or the other as a local-use only identifier. Anything that does not contain at least one . cannot be a reverse-dns entry(Unless you allow root zones as identifiers), and anything not contaiing a : cannot be a URN, and colons generally never appear in reverse-dns names.
 
-UUIDs can be used in this way via the <a href="urn:uuid" class="uri" class="uri">urn:uuid</a>: URI scheme.
+UUIDs can be used in this way via the urn:uuid URI scheme.
 
 Non-standard URI schemes should be avoided for the most part, however URI-like formats not intended to be part of the URI namespace but using the same or a similar format bay be used for internal use(e.g. "playsound:beep" as some kind of action identifier in a game.)
 
@@ -365,7 +374,7 @@ Objects that exist in a global namespace should support titles or aliases if the
 
 ### Local Identifiers
 
-Custom identifier schemes meant to identify things in a limited scope should usually have some set of "custom" or "private use" identifiers, prefixes, ranges, or root namespaces to allow for future expansion.
+Custom identifier schemes meant to identify things in a limited scope should usually have some set of "custom" or "private use" identifiers, prefixes, ranges, or root namespaces.
 
 One of the following three schemes is suggested for identifiers with limited scope not subject to collision issues on a global scale:
 
@@ -388,7 +397,7 @@ A third way, mainly for embedded devices, is to use a simple numbering scheme, w
 Libraries
 ---------
 
-Libraries, even those that are a single file, should always be distributed as a folder for consistency and easy of packaging license info and readme info with the library. Ideally any documentation aside from a short readme and the license and credits, any unit tests, and other related files should be stored outside of the main library folder to allow libraries to be dropped in unmodified to statically linked projetcs
+Libraries, even those that are a single file, should always be distributed as a folder for consistency and easy of packaging license info and readme files with the library. Ideally any documentation aside from a short readme and the license and credits, any unit tests, and other related files should be stored outside of the main library folder to allow libraries to be dropped in unmodified to statically linked projetcs
 
 Responsiveness
 --------------
@@ -413,29 +422,33 @@ Use of deprecated or removed command line arguments in shell programs should not
 Network and other IO
 ----------
 
-Devices that normally communicate via the internet should, where possible, be able to discover each other via the local network in the absence of internet connectivity. mDns should be used for discovery where possible.
+Devices that normally communicate via the internet should, where possible, be able to discover each other via the local network in the absence of internet connectivity.
 
-Occasional one-to-one requests that are not performance critical should be send via HTTP.
+mDns should be used for local discovery, and occasional one-to-one requests that are not performance critical should be send via HTTP.
 
-Where it is practical, serverless or peer to peer systems should be preffered to systems requiring a server.
+Where it is practical, serverless systems should be preffered to systems requiring a server.
 
 Nodes should automatically retry and reconnect after a network failure, and, as much as is possible, should re-enter the same state they were in before the disconnection.
 
-A user action should not be required for a reconnection unless there are potential side effects, nor should a message popup be displayed. Instead, a status indicator should be used. The reconnection process should be as transparent as possible.This also applies to non-ip networks like USB.
+In GUI applications, a user action should not be required for a reconnection unless there are potential side effects, nor should a message popup be displayed. Instead, a status indicator should be used.
+
+This also applies to non-ip networks like USB.
 
 ### HTTP
 
-Passwords should NEVER be sent via unencrypted HTTP. GET requests should have no side effects, except where the GET request URL contains a long random string of at least 24 bytes.
+Passwords shall not be sent via unencrypted HTTP. GET requests should have no side effects, except where the URL contains some kind of security token, encrryption
+is used, and aspects of the server such as logging is handled so as not to leak the password.
 
 Security
 --------
 
-Passwords should not be stored in plaintext on the server. Storing passwords on the client for use in accessing the server is acceptable as password-based applications often have no simple alternative. HTTP applications should always support TLS but should not require it except for things that do not obviously need security. 
+Passwords should not be stored in plaintext on the server. Storing passwords on the client for use in accessing the server is acceptable. HTTP applications should always support TLS but should not require it except for things that do not obviously need security. 
 
 Memory Management
 -----------------
 
 In applications making heavy use of RAM, manual cleanup on unused objects is often insufficient due to bugs and coding errors, leading to frequent memory leaks in many applications. Because of this, liberal use of weak references should be made in languages that support them for all objects that are repeatedly created and destroyed at runtime.
+Because garbage collection can be unpredictable, program correctness should not rely on weakly referenced data being collected in a timely manner.
 
 Misc
 ----
