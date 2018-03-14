@@ -1,12 +1,13 @@
 Power Delivery Standard 2016\*
 ==============================
 
-(C) 2016 Daniel Dunn
+(C) 2016,2018 Daniel Dunn
 
 Introduction
 ------------
 
 This document collects info on power connectors, fuses, and other power related gear, for use in the design of new devices and systems. These standards are desiged for maximum compatibility with existing equipment, however **nothing in this document should be taken to imply that any given existing device will behave in any particular way.**
+
 
 Voltages
 --------
@@ -19,13 +20,13 @@ Voltages
 
 The ranges given above are minimal suggestions. Devices should generally accept the widest possible voltage range.
 
-If a regulated voltage must be chosen, Devices should generally use one of 12v, 5v, 9v, 18v, 24v, or -9v(for audio gear only)
+If a regulated voltage must be chosen, Devices should generally use one of 24v, 19v, 18v, 12v, 9v, 5v, 3.3v, or -9v(for audio gear only)
 
-Low-power devices(Under 30W) should usually not connect directly to mains and should instead use a power adapter.
+Low-power devices(Under 30W) should usually not connect directly to mains and should instead use a power adapter with a barrel jack or USB connector for maximum flexibility and ease of replacement.
 
 Power supplies should provide regulation within 4% unless labeled as to their exact output voltage range. Devices that use a regulated voltage should tolerate 5% deviation from that voltage.
 
-No semi-exposed conductor(such as can be found on the charger end of xt60 connectors) should have more than 24v.
+No semi-exposed conductor(such as can be found on the charger end of xt60 connectors) should carry more than 24v.
 
 No fully exposed connector(Such as can be found on 9v batteries and the like, and on bannana plugs in some cases) should carry more than 15v.
 
@@ -44,30 +45,34 @@ Barrel jacks must always be used in in the center positive configuration, except
 
 1.3mm barrel jacks may carry up to 9v, and 0.8mm connectors may carry up to 5.5v.
 
-It is acceptable for any female barrel jack to serve as an outlet, provided both a diode and resettable fuse or breaker are placed to prevent backfeeding from causing damage. 2.1mm outlets should not use non-resettable fuses, and must be clearly marked with their output voltage and the word OUT or OUTPUT, or the equivalent in the appropriate language.
+Because it is already common practice, It is acceptable for any female barrel jack to serve as an outlet, provided both a diode and resettable fuse or breaker are placed to prevent backfeeding from causing damage. 2.1mm outlets should not use non-resettable fuses, and must be clearly marked with their output voltage and the word OUT or OUTPUT, or the equivalent in the appropriate language.
+
+
 
 ### Unregulated Voltages
 
-Devices requiring an unregulated "automotive style" 12v may use XT60, Cigarette plugs, or Anderson PowerPoles in the [ARES configuration.](http://www.qsl.net/w2vtm/powerpole.html) "Automotove style" 12v should be read as unregulated 10-15V. Where PowerPoles are used for nominal 12v, variations PP15, PP25, and PP45 should be preferred.
+Devices requiring an unregulated "automotive style" 12v may use XT60, Cigarette plugs, or Anderson PowerPoles in the [ARES configuration.](http://www.qsl.net/w2vtm/powerpole.html) "Automotove style" 12v should be read as an unregulated voltage between 10-15V. Where PowerPoles are used for nominal 12v, variations PP15, PP25, and PP45 should be preferred.
 
 Supplies providing power via ciggarette adapters should not provde more than 14.4V, but devices accepting power via ciggarette plugs should expect transients that may range from -20 to  70v, or perhaps even more. 
 
 Anderson PowerPole variations PP15, PP25, and PP45 should not carry more than 15v, except when used for internal connections of one piece of equipment intended to remain connected permanently except for during servicing, or where a middle spacer PowerPole is used. In this configuration the ARES ordering should be maintained.
 
-In this case the two outer pins may carry at most 30V. In this configuration the middle pin may be used for the center connector between two batteries for monitoring or balancing purposes, or to connect a separate supply of no more than 15v above ground or 15v below the outer pin's voltage voltage.
+Where a middle spacer is used, the two outer pins may carry at most 30V. In this configuration the middle pin may be used for the center connector between two batteries for monitoring or balancing purposes, or to connect a separate supply of no more than 15v above ground or 15v below the outer pin's voltage voltage.
 
-This scheme should not be used unless PowerPoles are already accepted and widely used in the application domain or there is specific reason to prefer them.
+
 
 Devices requiring unregulated voltages above nominal 12V but under 32v should use XT60 or XT90.
 
 XT90 Connectors may carry up to 50V, but extreme care should be used as 50v can deliver dangerous shocks in some cases.
 
 ### Misc
-Pre- USB C connectors may not be used for more than 2A.
+Pre-USB C connectors may not be used for more than 2A.
 
 2.1mm connectors may carry no more than 5A.
 
-1.3mm barrel jacks may not be used with center negative polarity or with voltages greater than 9v
+1.3mm barrel jacks may not be used with center negative polarity or with voltages greater than 9v.
+
+3.5mm audio jacks should use a very small current(Well under 100mA, and ideally under 8mA), and no more than 5V.
 
 ### Special Connectors
 
@@ -90,15 +95,15 @@ Grounding
 
 Devices should not directly connect signal cable grounds to power ground, to avoid a dangerous loop. Instead a 10k-47k resistor bypassed with an 0.1uf or greater capacitor should be used in most cases. This does not apply to signal cables indented to connect only to one other device at a time, which is powered entirely via that cable or via isolated sources.
 
-Where it is desired that a device have the option of being powered from either the signal cable or a power input, both a diode and a fuse should be provided on both the ground and power leads of the signal line, with the fuse rated for not more than the safe ampacity of the cable(Factoring in common counterfeiting of cables and conductors), divided by the maximum devices connected to one signal line if it is a bus topology.
+Where it is desired that a device have the option of being powered from either the signal cable or a power input, both a diode and a fuse should be provided on both the ground and power leads of the signal line, with the fuse rated for not more than the safe ampacity of the cable(Factoring in any known common counterfeiting of cables and conductors), divided by the maximum devices connected to one signal line if it is a bus topology.
 
 Alternately, an active isolating circuit may be used on either the signal or main power input lines, or a DPDT switch that can switch both signal and ground between the two inputs.
 
 Labeling
 --------
 
-Devices must be clearly marked with their full acceptable Input Voltage range, their input polarity, and their maximum input current. The format
-should be as follows: `9-15v 2A` or `9-12v 2A(300ma avg)`.
+Devices must be clearly marked with their full acceptable Input Voltage range, their input polarity, and their maximum input current. 
+The format should be as follows: `9-15v 2A` or `9-12v 2A(300ma avg)`.
 
 Relevant documentation should include the notice or a variation thereof: `This device can accept any center-positive power adapter with a voltage between XV and YV, and a current of ZA or more. Center-positive power adapters usually display this symbol:<Common polarity marking>. Ensure that the + and - signs are not reversed. Use only power adapters that have been certified by UL or another agency.`
 
@@ -109,6 +114,8 @@ Fusing
 
 Where practical, resettable fuses or circuit breakers should be used. Where fuses are used, 5x20mm, ATC, and miniature automotive fuses should be the preferred types, although 5x20mm fuses should not be used with DC voltages above 24v or 32v if the maximum fault current is limited, no  matter what the rating of the fuse is, due to the difficulty in  sourcing DC rated 5x20mm fues and possibility of incorrect replacement.
 
+Devices meant to run from a lithium battery must include some sort of overcurrent protection as close to the battery input
+as possible.
 
 Devices requiring fuses must be clearly marked as to the size and ampacity of fuse required.
 
@@ -131,7 +138,7 @@ Devices internally using DC should not connect directly to the mains unless they
 Battery Choice
 --------------
 
-Where practical, LiFePo4 cells should be chosen over lithium ion. NiCd and pb-acid should almost always be avoided.
+Where practical, LiFePo4 cells should be chosen over lithium ion. NiCd and Pb-acid should almost always be avoided.
 
 Handheld devices should use common cylindrical or coin sizes of rechargable battery where at all possible, otherwise pouch cells with JST-PH connectors should be used.
 
@@ -141,11 +148,14 @@ Where possible, most common lithium ion cells that have a maximum voltage of 4.2
 
 Permanently attached batteries should not be used.
 
-XT60 or PowerPole Connectors should be used on non-cylindrical batteries except very small ones, which should use JST-PH connectors, as is common practice by [SparkFun](https://www.sparkfun.com/products/13851) and [Adafruit](https://www.adafruit.com/products/258).
+XT60 or PowerPole Connectors should be used on non-cylindrical batteries except small single cell ones, which should use JST-PH connectors, as is common practice by [SparkFun](https://www.sparkfun.com/products/13851) and [Adafruit](https://www.adafruit.com/products/258).
 
-[JST-XH](http://www.tjinguytech.com/charging-how-tos/balance-connectors) should be used for balancing connectors, although integrated balancing and protection modules should be preferred. Anderson Powerpoles may also be for balancing in the 3-position 28v configuration mentioned in an earlier section. 
+[JST-XH](http://www.tjinguytech.com/charging-how-tos/balance-connectors) should be used for balancing connectors, although integrated balancing and protection modules should be preferred. Anderson Powerpoles may also be for balancing in the 3-position 28v configuration mentioned in an earlier section.
 
-DIYers and hobbyists should generally not attempt to charge any type of lithium battery without a protection circuit, and should strongly consider avoiding scratch built charging circuits completely for large lithium ion cells.
+JST-XH connectors may also be used for the connection between device and battery, provided current is less than 1 or 2 amps.
+The same layout should be used to maintain compatibility with balancers and monitor devices, even when an internal balancer is used.
+
+DIYers and hobbyists should generally not attempt to charge any type of lithium battery without a protection circuit, and should strongly consider avoiding scratch built charging circuits completely for lithium ion cells.
 
 Switching
 ---------
@@ -155,9 +165,9 @@ Physical on/off switches and digital switches that will automatically turn on wh
 Hot plugging
 ------------
 
-Devices should not be damaged by a full voltage hot plug to a stiff supply through even several hundred feet of cable inductance, even when plugged and unplugged rapidly. See [the article by Pololu Robotics.](https://www.pololu.com/docs/0J16/all)
+Devices should not be damaged by a full voltage hot plug to a low impedence supply through even several hundred feet of cable inductance, even when plugged and unplugged rapidly. See [the article by Pololu Robotics.](https://www.pololu.com/docs/0J16/all)
 
 Noise
 -----
 
-Devices should not backfeed noise into power lines. Noise levels must be low enough that harmful or illegal emissions will not result even from 250ft of untwisted zip cord.
+Devices should not backfeed noise into power lines. Noise levels must be low enough that harmful or illegal emissions will not result even from 250ft of untwisted zip cord. An AM radio may be used to get a general idea of the amount of RF you are emitting.
